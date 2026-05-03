@@ -15,7 +15,14 @@
 
     <ul>
         {% for activity in activities %}
-            <li>{{ activity["name"] }}</li>
+            <li>
+                {{ activity["name"] }}
+
+                <form action= "/complete/{{ activity[id] }}" method="POST" style="display:inline;">
+                    <button type="submit">Complete</button>
+                </form>
+            
+            </li>
         {% endfor %}
     </ul>
 </body>

@@ -28,5 +28,17 @@ def add_activity():
 
     return redirect("/")
 
+@app.route("/complete/<int:id>", methods=["POST"])
+def complete_activity(id):
+    connection = get_connection()
+    connection.execute(
+        "UPDATE activities SET completed = 1 WHERE id = ?",
+        (id,)
+    )
+    connection.commit()
+    connection.close()
+
+    return redirect("/")
+
 if __name__ == "__main__":
     app.run(debug=True)
