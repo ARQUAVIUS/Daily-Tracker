@@ -18,20 +18,31 @@
         <button type="submit">Add Activity</button>
     </form>
 
-    <h2>Your Activities</h2>
-
-    <ul>
-    {% for activity in activities %}
-        <li class="{% if activity['completed'] == 1 %}completed{% endif %}">
+    <h2>Active Activities</h2>
+<ul>
+    {% for activity in active_activities %}
+        <li>
             {{ activity["name"] }}
 
-            {% if activity["completed"] == 0 %}
-                <form action="/complete/{{ activity['id'] }}" method="POST" style="display:inline;">
-                    <button type="submit">Complete</button>
+            <form action="/complete/{{ activity['id'] }}" method="POST" style="display:inline;">
+                <button type="submit">Complete</button>
+            </form>
+
+            {% if role == "admin" %}
+                <form action="/delete/{{ activity['id'] }}" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
                 </form>
-            {% else %}
-                <span>Completed</span>
             {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>Completed Activities</h2>
+<ul>
+    {% for activity in completed_activities %}
+        <li class="completed">
+            {{ activity["name"] }}
+            <span>Completed</span>
 
             {% if role == "admin" %}
                 <form action="/delete/{{ activity['id'] }}" method="POST" style="display:inline;">

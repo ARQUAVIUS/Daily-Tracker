@@ -9,10 +9,21 @@ create_tables()
 @app.route("/")
 def home():
     connection = get_connection()
-    activities = connection.execute("SELECT * FROM activities").fetchall()
+    active_activities = connection.execute(
+        "SELECT * FROM activities WHERE completed = 0"
+    ).fetchall()
+
+    completed_activities = connection.execute(
+        "SELECT * FROM activities WHERE completed = 1"
+    ).fetchall()
     connection.close()
     role = session.get("role", "user")
-    return render_template("index.html", activities=activities, role=role)
+    return render_template(
+    "index.html",
+    active_activities=active_activities,
+    completed_activities=completed_activities,
+    role=role
+)
 
 @app.route("/add", methods=["POST"])
 def add_activity():
