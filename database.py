@@ -16,7 +16,8 @@ def create_tables():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS activities (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL
+            name TEXT NOT NULL,
+            completed INTEGER default 0
         )
     """)
 
