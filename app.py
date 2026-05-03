@@ -48,5 +48,20 @@ def set_role(role):
 
     return redirect("/")
 
+@app.route("/delete/<int:id>", methods=["POST"])
+def delete_activity(id):
+    if session.get("role") != "admin":
+        return redirect("/")
+
+    connection = get_connection()
+    connection.execute(
+        "DELETE FROM activities WHERE id = ?",
+        (id,)
+    )
+    connection.commit()
+    connection.close()
+
+    return redirect("/")
+
 if __name__ == "__main__":
     app.run(debug=True)
