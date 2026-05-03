@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
+    <div class="container">
     <p>Current mode: {{ role }}</p>
 
     <a href="/set-role/user">User Mode</a>
@@ -52,5 +52,6 @@
         </li>
     {% endfor %}
 </ul>
+</div>
 </body>
 </html>
