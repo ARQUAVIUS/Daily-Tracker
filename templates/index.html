@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Daily Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">g
 </head>
 <body>
     <h1>Daily Tracker</h1>
@@ -14,16 +15,19 @@
     <h2>Your Activities</h2>
 
     <ul>
-        {% for activity in activities %}
-            <li>
-                {{ activity["name"] }}
+    {% for activity in activities %}
+        <li class="{% if activity['completed'] == 1 %}completed{% endif %}">
+            {{ activity["name"] }}
 
-                <form action= "/complete/{{ activity[id] }}" method="POST" style="display:inline;">
+            {% if activity["completed"] == 0 %}
+                <form action="/complete/{{ activity['id'] }}" method="POST" style="display:inline;">
                     <button type="submit">Complete</button>
                 </form>
-            
-            </li>
-        {% endfor %}
-    </ul>
+            {% else %}
+                <span>Completed</span>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
 </body>
 </html>
