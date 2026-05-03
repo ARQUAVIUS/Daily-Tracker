@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 from database import create_tables, get_connection
 
 app = Flask(__name__)
+app.secret_key = "daily_tracker_secret_key"
 
 create_tables()
 
@@ -10,8 +11,8 @@ def home():
     connection = get_connection()
     activities = connection.execute("SELECT * FROM activities").fetchall()
     connection.close()
-
-    return render_template("index.html", activities=activities)
+    role = session.get("role", "user")
+    return render_template("index.html", activities=activities, role=role)
 
 @app.route("/add", methods=["POST"])
 def add_activity():
@@ -37,6 +38,13 @@ def complete_activity(id):
     )
     connection.commit()
     connection.close()
+
+    return redirect("/")
+
+@app.route("/set-role/<role>")
+def set_role(role):
+    if role in ["user", "admin"]:
+        session["role"] = role
 
     return redirect("/")
 
